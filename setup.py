@@ -26,7 +26,7 @@ class PyTest(TestCommand):
 
 
 setup(
-    name='gmicpy',
+    name='text_dataset_streaming',
     version='1.0.0',
     author='cedric.lacrambe',
     author_email='cedric.lacrambe@gmail.com',

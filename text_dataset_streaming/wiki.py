@@ -25,31 +25,32 @@ def wikiparse(text):
     return output.leaves()
 
 
-def wiki_article_generator(source,len_threshold=50):
+def wiki_article_generator(source,len_threshold=50,namespace=0):
         with smart_open.open(source) as f:
 
             dump = Dump.from_file(f)
             for page in dump.pages:
-                # Iterate through a page's revisions
-                for revision in page:
-                    pass
+                if namespace is  None or page.namespace==namespace:
+                    # Iterate through a page's revisions
+                    for revision in page:
+                        pass
 
-                text=revision.text
-                if text is not None and len(text)>len_threshold:
+                    text=revision.text
+                    if text is not None and len(text)>len_threshold:
 
-                    text=text.strip()
+                        text=text.strip()
 
-                    if  any( t in page.title   for t in [".djvu",".jpg",".png"]):
-                        continue
-                    title=page.title.replace("/"," - ")
-                    title=title.replace("\\"," - ")
+                        if  any( t in page.title   for t in [".djvu",".jpg",".png"]):
+                            continue
+                        title=page.title.replace("/"," - ")
+                        title=title.replace("\\"," - ")
 
-                    try:
-                        text=pypandoc.convert_text(text,'plain','mediawiki')
-
-                    except:
                         try:
-                            text=wikiparse(text)
+                            text=pypandoc.convert_text(text,'plain','mediawiki')
+
                         except:
-                            pass
+                            try:
+                                text=wikiparse(text)
+                            except:
+                                pass
                     yield (page.title,text)

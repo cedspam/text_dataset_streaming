@@ -2,8 +2,8 @@
 import threading
 import queue
 
-from textfiles import urllist_textgen,opus_mono_textgen
-from wiki import wiki_article_generator
+from .textfiles import urllist_textgen,opus_mono_textgen
+from .wiki import wiki_article_generator
 
 
 

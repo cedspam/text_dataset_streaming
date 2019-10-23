@@ -7,7 +7,7 @@ import logging
 def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8"):
     for u in urls:
         try:
-            with smart_open.open(u,mode="rt",
+            with smart_open.open(u,
                      encoding=encoding,errors="ignore") as f:
               t=f.read(chunk_size)
               while len(t)>0:

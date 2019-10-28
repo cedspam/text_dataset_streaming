@@ -14,6 +14,7 @@ def split_ligne(t,chunk_size=int(32e6)):
     if lreste<0:
         return t,""
     else:
+        texte=""
         l=t[4096:].rsplit("\n",1)
         if len(l)>1:
               texte1,reste=l

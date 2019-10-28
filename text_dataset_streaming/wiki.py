@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import re
 import pypandoc
 
 
@@ -53,4 +53,9 @@ def wiki_article_generator(source,len_threshold=50,namespace=0):
                                 text=wikiparse(text)
                             except:
                                 pass
+                    #nettoyage restant
+                    text=re.sub(r"\[\d*?\]","",text).replace("{{,}}","")
+                    text="\n".join(s.rstrip() for s in text.split("\n") if s.strip()!="")
+                    text=re.sub(r"\n[ .,]*\n","",text)
+                    
                     yield (page.title,text)

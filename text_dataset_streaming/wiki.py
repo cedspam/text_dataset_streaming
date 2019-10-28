@@ -10,6 +10,21 @@ from mwxml import Dump
 import smart_open
 
 
+wikimedia_fr_url=["https://dumps.wikimedia.freemirror.org/frwikisource/latest/frwikisource-latest-pages-articles-multistream.xml.bz2",
+          "https://dumps.wikimedia.freemirror.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2",
+         "https://dumps.wikimedia.freemirror.org/frwikiversity/latest/frwikiversity-latest-pages-articles.xml.bz2",
+         "https://dumps.wikimedia.freemirror.org/frwikibooks/latest/frwikibooks-latest-pages-articles.xml.bz2",
+         "https://dumps.wikimedia.freemirror.org/frwikivoyage/latest/frwikivoyage-latest-pages-articles.xml.bz2",
+         "https://dumps.wikimedia.your.org/frwikiversity/latest/frwikiversity-latest-pages-articles-multistream.xml.bz2",
+         "https://dumps.wikimedia.your.org/frwikibooks/latest/frwikibooks-latest-pages-articles-multistream.xml.bz2",
+        "https://dumps.wikimedia.your.org/frwikiquote/latest/frwikiquote-latest-pages-articles-multistream.xml.bz2",
+         "https://dumps.wikimedia.your.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2"
+        
+
+
+         
+        
+        ]
 
 
 def wikiparse(text):

@@ -8,7 +8,7 @@ import mediawiki_parser.preprocessor, mediawiki_parser.text
 
 from mwxml import Dump
 import smart_open
-
+from .bufgen import threaded_bufgen,bufgen_decorator
 
 wikimedia_fr_url=["https://dumps.wikimedia.freemirror.org/frwikisource/latest/frwikisource-latest-pages-articles-multistream.xml.bz2",
           "https://dumps.wikimedia.freemirror.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2",
@@ -19,11 +19,11 @@ wikimedia_fr_url=["https://dumps.wikimedia.freemirror.org/frwikisource/latest/fr
          "https://dumps.wikimedia.your.org/frwikibooks/latest/frwikibooks-latest-pages-articles-multistream.xml.bz2",
         "https://dumps.wikimedia.your.org/frwikiquote/latest/frwikiquote-latest-pages-articles-multistream.xml.bz2",
          "https://dumps.wikimedia.your.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2"
-        
 
 
-         
-        
+
+
+
         ]
 
 
@@ -71,7 +71,7 @@ def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
                     #nettoyage restant
                     text=re.sub(r"\[\d*?\]","",text).replace("{{,}}","")
                     text="\n".join(s.rstrip() for s in text.split("\n") if s.strip()!="")
-                    text=re.sub(r"\n[ .,]*\n","",text)
+                    text=re.sub(r"\n[ .,-]*\n","",text)
                     text=re.sub(r"\((?P<type>\w{3,10}):(en|fr)? (Template:)?(?P<texte>[^)|]*)\)",r"\g<texte>",text)
-                    
+
                     yield (page.title,text)

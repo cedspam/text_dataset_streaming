@@ -7,6 +7,7 @@ import random
 import logging
 import functools
 import itertools
+from .bufgen import threaded_bufgen,bufgen_decorator
 
 def split_ligne(t,chunk_size=int(32e6)):
     lreste=chunk_size-len(t)
@@ -41,6 +42,9 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
             texte,reste=split_ligne(reste+t,chunk_size*0.8)
         if len(reste)>0:
             yield reste
+
+    except KeyboardInterrupt:
+        raise KeyboardInterrupt
     except:
         logging.exception("exception url %s",u)
 

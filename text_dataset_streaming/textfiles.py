@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import requests
 import smart_open
+# -*- coding: utf-8 -*-
+
 import random
 import logging
+import functools
+import itertools
 
 def split_ligne(t,chunk_size=int(32e6)):
     lreste=chunk_size-len(t)
@@ -23,27 +27,36 @@ def split_ligne(t,chunk_size=int(32e6)):
         return texte,reste
 
 
+def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
+    reste=""
+    try:
+        with smart_open.open(u,
+                 encoding=encoding,errors="ignore") as f:
+          t=f.read(chunk_size)
+          texte,reste=split_ligne(t,chunk_size*0.8)
+          while len(t)>0:
+            yield texte
+            t=f.read(chunk_size)
+            texte,reste=split_ligne(reste+t,chunk_size*0.8)
+        if len(reste)>0:
+            yield reste
+    except:
+        logging.exception("exception url %s",u)
+
+def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8"):
+    textgen_func=functools.partial(url_textgen,chunk_size=chunk_size,
+                                   encoding=encoding)
+    return map(textgen_func,textgen_func)
+
 def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8"):
-    for u in urls:
-        reste=""
-        try:
-            with smart_open.open(u,
-                     encoding=encoding,errors="ignore") as f:
-              t=f.read(chunk_size)
-              texte,reste=split_ligne(t,chunk_size*0.8)
+    iters=urllist_to_textgen_list(urls,chunk_size=chunk_size,
+                                   encoding=encoding)
+    return itertools.chain.from_iterable(iters)
 
 
 
 
 
-              while len(t)>0:
-                yield texte
-                t=f.read(chunk_size)
-                texte,reste=split_ligne(reste+t,chunk_size*0.8)
-            if len(reste)>0:
-                yield reste
-        except:
-            logging.exception("exception url %s",u)
 
 def opus_mono_get_url(lang='fr',minsize=5e3):
     r=requests.get("http://opus.nlpl.eu/opusapi/",

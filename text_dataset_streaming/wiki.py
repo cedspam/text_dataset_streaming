@@ -40,13 +40,13 @@ def wikiparse(text):
     return output.leaves()
 
 
-def wiki_article_generator(source,len_threshold=50,namespace=0):
+def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
         with smart_open.open(source) as f:
 
             dump = Dump.from_file(f)
             for page in dump.pages:
-                if namespace is  None or page.namespace==namespace:
-                    # Iterate through a page's revisions
+                if page.namespace in namespaces:
+                    # getting last page's revision
                     for revision in page:
                         pass
 

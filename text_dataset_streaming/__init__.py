@@ -23,4 +23,10 @@ def threaded_bufgen(gen,maxsize=2):
         yield q.get()
 
 
+def bufgen_decorator(func,*args,maxsize=2,**kvargs):
+    def closure(*args,**kvargs):
+        gen=func(*args,**kvargs)
+        return threaded_bufgen(gen,maxsize)
+    return closure
+
 

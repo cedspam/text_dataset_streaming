@@ -17,6 +17,9 @@ def split_ligne(t,chunk_size=int(32e6)):
               texte=l[0]
               reste=""
         texte=t[:4096]+texte
+        if len(reste)>0 and reste[-1]=="\n":
+            texte+=reste
+            reste=""
         return texte,reste
 
 
@@ -36,7 +39,7 @@ def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8"):
               while len(t)>0:
                 yield texte
                 t=f.read(chunk_size)
-                texte,reste=split_ligne(reste+t,chunk_size)
+                texte,reste=split_ligne(reste+t,chunk_size*0.8)
             if len(reste)>0:
                 yield reste
         except:

@@ -28,7 +28,7 @@ def split_ligne(t,chunk_size=int(32e6)):
             reste=""
         return texte,reste
 
-
+@bufgen_decorator
 def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
     reste=""
     try:

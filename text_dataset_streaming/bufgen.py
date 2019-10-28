@@ -2,7 +2,7 @@
 import threading
 import queue
 
-def threaded_bufgen(gen,maxsize=2):
+def threaded_bufgen(gen,maxsize=3):
     lock = threading.Lock()
     q=queue.Queue(maxsize=2)
     def wrap(gen=gen):
@@ -18,7 +18,7 @@ def threaded_bufgen(gen,maxsize=2):
         yield q.get()
 
 
-def bufgen_decorator(func,*args,maxsize=2,**kvargs):
+def bufgen_decorator(func,*args,maxsize=3,**kvargs):
     def closure(*args,**kvargs):
         gen=func(*args,**kvargs)
         return threaded_bufgen(gen,maxsize)

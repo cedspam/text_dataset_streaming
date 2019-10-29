@@ -48,7 +48,11 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
     except:
         logging.exception("exception url %s",u)
 
-def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8"):
+def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
+                            randomize=True):
+    if randomize:
+        urls=urls.copy()
+        random.shuffle(urls)
     textgen_func=functools.partial(url_textgen,chunk_size=chunk_size,
                                    encoding=encoding)
     return map(textgen_func,urls)

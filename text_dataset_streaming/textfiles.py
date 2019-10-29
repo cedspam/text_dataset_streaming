@@ -27,8 +27,11 @@ def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
     return texte,reste
 
 @bufgen_decorator
-def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
+def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=4096):
     reste=""
+    if chunk_size<minsplit:
+       minsplit= chunk_size
+
     try:
         with smart_open.open(u,
                  encoding=encoding,errors="ignore") as f:
@@ -37,7 +40,8 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):
           while len(t)>0:
             yield texte
             t=f.read(chunk_size)
-            texte,reste=split_ligne(reste+t,chunk_size*0.8)
+            texte,reste=split_ligne(reste+t,int(chunk_size*0.8),
+                                    minsplit=minsplit)
         if len(reste)>0:
             yield reste
 
@@ -55,6 +59,8 @@ def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
                                    encoding=encoding)
     return map(textgen_func,urls)
 
+
+@bufgen_decorator
 def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8"):
     iters=urllist_to_textgen_list(urls,chunk_size=chunk_size,
                                    encoding=encoding)

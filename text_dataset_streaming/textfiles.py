@@ -9,24 +9,22 @@ import functools
 import itertools
 from .bufgen import threaded_bufgen,bufgen_decorator
 
-def split_ligne(t,chunk_size=int(32e6)):
+def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
     lreste=chunk_size-len(t)
     lreste=int(lreste)
-    if lreste<0:
-        return t,""
+
+    texte=""
+    l=t[minsplit:].rsplit("\n",1)
+    if len(l)>1:
+          texte1,reste=l
     else:
-        texte=""
-        l=t[4096:].rsplit("\n",1)
-        if len(l)>1:
-              texte1,reste=l
-        else:
-              texte=l[0]
-              reste=""
-        texte=t[:4096]+texte
-        if len(reste)>0 and reste[-1]=="\n":
-            texte+=reste
-            reste=""
-        return texte,reste
+          texte=l[0]
+          reste=""
+    texte=t[:minsplit]+texte
+    if len(reste)>0 and reste[-1]=="\n":
+        texte+=reste
+        reste=""
+    return texte,reste
 
 @bufgen_decorator
 def url_textgen(u,chunk_size=int(32e6),encoding="utf8"):

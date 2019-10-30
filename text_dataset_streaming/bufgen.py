@@ -17,10 +17,12 @@ def threaded_bufgen(gen,maxsize=3):
     task.start()
 
 
-    while True:
+    while task.is_alive():
       with lock:
-        yield q.get()
-
+        try:
+            yield q.get(timeout=1)
+        except queue.Empty:
+            pass
 
 def bufgen_decorator(func,*args,maxsize=3,**kvargs):
     def closure(*args,**kvargs):
@@ -28,7 +30,7 @@ def bufgen_decorator(func,*args,maxsize=3,**kvargs):
         return threaded_bufgen(gen,maxsize)
     if hasattr(func,"__doc__"):
         closure.__doc__=func.__doc__
-    closure.__name__=func.__name_
+    closure.__name__=func.__name__
     return closure
 
 

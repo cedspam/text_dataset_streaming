@@ -39,7 +39,7 @@ def wikiparse(text):
     output = parser.parse(preprocessed_text)
     return output.leaves()
 
-@bufgen_decorator
+#@bufgen_decorator
 def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
         with smart_open.open(source) as f:
 

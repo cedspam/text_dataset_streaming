@@ -77,9 +77,9 @@ def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
 
 
 #@bufgen_decorator
-def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8"):
+def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8",randomize=True):
     iters=urllist_to_textgen_list(urls,chunk_size=chunk_size,
-                                   encoding=encoding)
+                                   encoding=encoding,randomize=randomize)
     return itertools.chain.from_iterable(iters)
 
 
@@ -98,7 +98,8 @@ def opus_mono_get_url(lang='fr',minsize=5e3):
     return urls
 
 
-def opus_mono_textgen(lang='fr',encoding='utf8',chunk_size=int(8e6),minsize=5e3):
+def opus_mono_textgen(lang='fr',encoding='utf8',chunk_size=int(8e6),minsize=5e3,
+                      randomize=True):
     urls=opus_mono_get_url(lang,minsize)
-    return  urllist_textgen(urls,chunk_size,encoding)
+    return  urllist_textgen(urls,chunk_size,encoding,randomize=randomize)
 

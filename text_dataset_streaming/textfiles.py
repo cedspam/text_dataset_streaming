@@ -11,6 +11,9 @@ import itertools
 import unicodedata
 from .bufgen import threaded_bufgen,bufgen_decorator
 
+
+
+
 def unwrap_lines(txt2,cols=40):
   txt3=""
   for t in txt2.split("\n"):
@@ -46,7 +49,7 @@ def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
 def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=4096,cols=35):
     reste=""
     if chunk_size<minsplit:
-       minsplit= chunk_size
+       minsplit= int(chunk_size*0.6)
 
     try:
         with smart_open.open(u,
@@ -58,8 +61,8 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=4096,cols=35):
             t=f.read(chunk_size)
             texte,reste=split_ligne(reste+t,int(chunk_size*0.8),
                                     minsplit=minsplit)
-        if len(reste)>0:
-            yield unwrap_lines(reste,cols)
+
+        yield unwrap_lines(texte,cols)
 
     except KeyboardInterrupt:
         raise KeyboardInterrupt

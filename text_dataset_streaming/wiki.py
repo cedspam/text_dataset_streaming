@@ -9,6 +9,7 @@ import mediawiki_parser.preprocessor, mediawiki_parser.text
 from mwxml import Dump
 import smart_open
 from .bufgen import threaded_bufgen,bufgen_decorator
+from .textfiles import unwrap_lines
 
 wikimedia_fr_url=["https://dumps.wikimedia.freemirror.org/frwikisource/latest/frwikisource-latest-pages-articles-multistream.xml.bz2",
           "https://dumps.wikimedia.freemirror.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2",
@@ -20,17 +21,6 @@ wikimedia_fr_url=["https://dumps.wikimedia.freemirror.org/frwikisource/latest/fr
         "https://dumps.wikimedia.your.org/frwikiquote/latest/frwikiquote-latest-pages-articles-multistream.xml.bz2",
          "https://dumps.wikimedia.your.org/frwiki/latest/frwiki-latest-pages-articles-multistream.xml.bz2"
         ]
-
-import unicodedata
-def unwrap_lines(text,cols=40):
-  txt3=""
-  for t in text.split("\n"):
-    txt3+=t
-    if  len(t)<cols:
-      txt3+="\n"
-    elif unicodedata.category(t[-1])[0]=="P" and t[-1] not in ",_-":
-      txt3+="\n"
-  return txt3
 
 
 

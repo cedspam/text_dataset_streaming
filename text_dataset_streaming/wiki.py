@@ -73,3 +73,10 @@ def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
                     text=re.sub(r"\((?P<type>\w{3,10}):(en|fr)? (Template:)?(?P<texte>[^)|]*)\)",r"\g<texte>",text)
                     text=unwrap_lines(text,cols=40)
                     yield (page.title,text)
+
+
+def wiki_article_text_generator(source,len_threshold=50,namespaces=[None,0]):
+    gen=wiki_article_generator(source,len_threshold,namespaces)
+    for t,a in gen:
+        yield a
+

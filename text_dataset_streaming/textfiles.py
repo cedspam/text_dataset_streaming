@@ -10,6 +10,7 @@ import itertools
 
 import unicodedata
 from .bufgen import threaded_bufgen,bufgen_decorator
+logging.captureWarnings(True)
 
 
 
@@ -46,7 +47,7 @@ def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
     return texte,reste
 
 #@bufgen_decorator
-def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=4096,cols=35):
+def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=30,cols=35):
     reste=""
     if chunk_size<minsplit:
        minsplit= int(chunk_size*0.6)

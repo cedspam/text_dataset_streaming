@@ -1,0 +1,5 @@
+smart_open>1.8.1
+requests
+pypandoc
+mediawiki_parser
+mwxm

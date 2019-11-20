@@ -1,7 +1,11 @@
 name: text_dataset_streaming
 
 
-on: [push]
+on: 
+  push:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 12 * * */3'
 
 jobs:
   build:

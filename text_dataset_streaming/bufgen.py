@@ -64,9 +64,9 @@ def multisource_gen_concat(genlist,randomize=True):
             random.shuffle(queue_list)
         for q in queue_list:
             try:
-                with lock:
                     while True:
-                        yield q.get(False)
+                        with lock:
+                            yield q.get( timeout=0.01)
             except queue.Empty:
                 continue
 

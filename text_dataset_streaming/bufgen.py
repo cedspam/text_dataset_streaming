@@ -35,7 +35,7 @@ def bufgen_decorator(func,*args,maxsize=3,**kvargs):
     closure.__name__=func.__name__
     return closure
 
-def multisource_gen_concat(genlist,randomize=True):
+def multisource_gen_concat(genlist,randomize=True,buffsisze=2):
     task_list=[]
     lock = threading.Lock()
     queue_list=[]
@@ -43,7 +43,7 @@ def multisource_gen_concat(genlist,randomize=True):
        for t in gen:
            q.put(t)
     for i  in range(len(genlist)):
-        q=queue.Queue(maxsize=2)
+        q=queue.Queue(maxsize=buffsisze)
         queue_list.append(q)
         gen=genlist[i]
 
@@ -64,7 +64,7 @@ def multisource_gen_concat(genlist,randomize=True):
             random.shuffle(queue_list)
         for q in queue_list:
             try:
-                    while True:
+                    while not q.empty() :
                         with lock:
                             yield q.get( timeout=0.01)
             except queue.Empty:

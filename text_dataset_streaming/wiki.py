@@ -39,6 +39,15 @@ def wikiparse(text):
 
 #@bufgen_decorator
 def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
+                    """
+          returns articles title and text 
+          args:
+                    source: mediawiki xml ,xml.bz2 or any smart_open mediawiki path or url
+                    len_threshold: min len of returned articles
+                    namespaces: iterable of returned namespace
+                    
+          
+          """
         with smart_open.open(source) as f:
 
             dump = Dump.from_file(f)
@@ -76,6 +85,14 @@ def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
 
 
 def wiki_article_text_generator(source,len_threshold=50,namespaces=[None,0]):
+          """
+          returns articles text only
+                    args:
+                    source: mediawiki xml ,xml.bz2 or any smart_open mediawiki path or url
+                    len_threshold: min len of returned articles
+                    namespaces: iterable of returned namespace
+                    
+          """
     gen=wiki_article_generator(source,len_threshold,namespaces)
     for t,a in gen:
         yield a

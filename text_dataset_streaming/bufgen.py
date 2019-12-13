@@ -46,11 +46,13 @@ def multisource_gen_concat(genlist,randomize=True):
         q=queue.Queue(maxsize=2)
         queue_list.append(q)
         gen=genlist[i]
+
         if isinstance(gen,collections.abc.Iterable):
             if  all(isinstance(a,str) for a in gen):
                 gen=iter(gen)
             elif all(isinstance(a,gen,collections.abc.Iterator) for a in gen):
                 gen=itertools.chain.from_iterable(gen)
+
         elif not isinstance(gen,collections.abc.Iterator):
             gen=itertools.chain.from_iterable(gen)
 
@@ -67,11 +69,13 @@ def multisource_gen_concat(genlist,randomize=True):
                         yield q.get(False)
             except queue.Empty:
                 continue
+
 def threadsafe_wrap(gen):
     lock = threading.Lock()
     for i in gen:
         with lock:
             yield i
+
 
 
 

@@ -28,7 +28,7 @@ def opus_mono_textgen(lang='fr',encoding='utf8',chunk_size=int(8e6),minsize=5e3,
     return  urllist_textgen(urls,chunk_size,encoding,randomize=randomize)
 
 
-def build_pair_dataset_url_list(source_lang="fr",target_lang="en"):
+def opus_build_pair_dataset_url_list(source_lang="fr",target_lang="en"):
   source_lang="fr"
   target_lang="en"
   r=requests.get("http://opus.nlpl.eu/opusapi/",params={"source":source_lang,"version":"latest","target":target_lang})
@@ -38,14 +38,16 @@ def build_pair_dataset_url_list(source_lang="fr",target_lang="en"):
   return url_tmx
 # return pairgen(url_tmx)
 def pair_dataset_gen(source_lang="fr",target_lang="en",minsize_text=0,maxsize_text=0):
-  url_tmx= build_pair_dataset_url_list(source_lang="fr",target_lang="en")
+  url_tmx= opus_build_pair_dataset_url_list(source_lang="fr",target_lang="en")
   return pairgen(url_tmx,source_lang=source_lang,target_lang=target_lang,
                  minsize_text=minsize_text,maxsize_text=maxsize_text)
 
 
 
-def queue_pairs(url,pair_queue,source_lang="fr",target_lang="en",minsize_text=0):
-
+def queue_pairs_from_tmx_url(url,pair_queue,source_lang="fr",target_lang="en",minsize_text=0):
+  """
+  stream parse tmx url into
+  """
   f=smart_open.open(url,mode="rb")
   # 3 handler functions
 
@@ -107,7 +109,7 @@ def pairgen(urls,maxsize=3,source_lang="fr",target_lang="en",minsize_text=0,maxs
 
 
 
-      task=threading.Thread(target=queue_pairs,
+      task=threading.Thread(target=queue_pairs_from_tmx_url,
                             args=(url,q,source_lang,target_lang,minsize_text)
                              )
       task.start()

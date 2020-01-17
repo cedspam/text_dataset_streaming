@@ -78,12 +78,12 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=30,cols=35):
         logging.exception("exception url %s",u)
 
 def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
-                            randomize=True):
+                            randomize=True,minsplit=30):
     if randomize:
         urls=urls.copy()
         random.shuffle(urls)
     textgen_func=functools.partial(url_textgen,chunk_size=chunk_size,
-                                   encoding=encoding)
+                                   encoding=encoding,minsplit=minsplit)
     return map(textgen_func,urls)
 
 
@@ -94,23 +94,4 @@ def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8",randomize=True):
     return itertools.chain.from_iterable(iters)
 
 
-
-
-
-
-def opus_mono_get_url(lang='fr',minsize=5e3):
-    r=requests.get("http://opus.nlpl.eu/opusapi/",
-                   params={"source":lang,
-                                                  "version":"latest",
-                                                  'preprocessing': 'mono'})
-    d=r.json()
-    urls=sorted(set( c['url']   for c in d['corpora'] \
-            if  '.txt.gz' in c['url'] and int(c['size'])>minsize ))
-    return urls
-
-
-def opus_mono_textgen(lang='fr',encoding='utf8',chunk_size=int(8e6),minsize=5e3,
-                      randomize=True):
-    urls=opus_mono_get_url(lang,minsize)
-    return  urllist_textgen(urls,chunk_size,encoding,randomize=randomize)
 

@@ -38,8 +38,8 @@ jobs:
     - name: Test with pytest
       run: |
         pip install -e .
-        pip install pytest --junitxml=junit/test-results-${{ matrix.python-version }}-${{ matrix.os }}.xml
-        pytest
+        pip install pytest 
+        pytest --junitxml=junit/test-results-${{ matrix.python-version }}-${{ matrix.os }}.xml
     - name: Upload pytest test results
       uses: actions/upload-artifact@master
       with:

@@ -52,6 +52,7 @@ jobs:
         python setup.py clean
         python setup.py bdist_wheel
         python setup.py bdist
+      if: always()
         
     - name: Upload packages
       uses: actions/upload-artifact@master

@@ -88,7 +88,7 @@ def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
 
 
 #@bufgen_decorator
-def urllist_textgen(urls,chunk_size=int(32e6),encoding="utf8",randomize=True):
+def urllist_textgen(urls,chunk_size=2048,encoding="utf8",randomize=True):
     iters=urllist_to_textgen_list(urls,chunk_size=chunk_size,
                                    encoding=encoding,randomize=randomize)
     return itertools.chain.from_iterable(iters)

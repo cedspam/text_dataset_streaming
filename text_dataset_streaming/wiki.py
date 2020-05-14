@@ -83,7 +83,7 @@ def wiki_article_generator(source,len_threshold=50,namespaces=[None,0]):
                     yield (page.title,text)
 
 
-def wiki_article_text_generator(source,len_threshold=50,namespaces=[None,0]):
+def wiki_article_text_generator(source=wikimedia_fr_url[1],len_threshold=50,namespaces=[None,0]):
     """
       returns articles text only
             args:

@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import logging
+logging.getLogger('text_dataset_streaming').addHandler(logging.NullHandler())
+logging.captureWarnings(True)
+del logging
 
 
 from .textfiles import urllist_textgen

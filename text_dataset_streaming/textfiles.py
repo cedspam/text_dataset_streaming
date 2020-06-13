@@ -83,7 +83,7 @@ def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
         urls=list(urls)
         random.shuffle(urls)
     textgen_func=functools.partial(url_textgen,chunk_size=chunk_size,
-                                   encoding=encoding,minsplit=minsplit,,cols=cols)
+                                   encoding=encoding,minsplit=minsplit,cols=cols)
     return map(textgen_func,urls)
 
 

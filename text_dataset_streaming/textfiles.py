@@ -78,19 +78,19 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=30,cols=35):
         logging.exception("exception url %s",u)
 
 def urllist_to_textgen_list(urls,chunk_size=int(32e6),encoding="utf8",
-                            randomize=True,minsplit=30):
+                            randomize=True,minsplit=30,cols=35):
     if randomize:
-        urls=urls.copy()
+        urls=list(urls)
         random.shuffle(urls)
     textgen_func=functools.partial(url_textgen,chunk_size=chunk_size,
-                                   encoding=encoding,minsplit=minsplit)
+                                   encoding=encoding,minsplit=minsplit,,cols=cols)
     return map(textgen_func,urls)
 
 
 #@bufgen_decorator
-def urllist_textgen(urls,chunk_size=2048,encoding="utf8",randomize=True):
+def urllist_textgen(urls,chunk_size=2048,encoding="utf8",randomize=True,minsplit=30,cols=35):
     iters=urllist_to_textgen_list(urls,chunk_size=chunk_size,
-                                   encoding=encoding,randomize=randomize)
+                                   encoding=encoding,randomize=randomize,,minsplit=minsplit,cols=cols)
     return itertools.chain.from_iterable(iters)
 
 

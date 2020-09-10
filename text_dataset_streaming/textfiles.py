@@ -66,7 +66,11 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=30,cols=35):
           texte,reste=split_ligne(t,chunk_size*0.8,minsplit=minsplit)
           while len(t)>0:
             yield unwrap_lines(texte,cols)
-            t=f.read(chunk_size)
+            read_size=chunk_size-len(reste)
+            if read_size>0:
+              t=f.read(read_size)
+            else:
+              t=""
             texte,reste=split_ligne(reste+t,int(chunk_size*0.8),
                                     minsplit=minsplit)
 

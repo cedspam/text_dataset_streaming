@@ -78,6 +78,8 @@ def url_textgen(u,chunk_size=int(32e6),encoding="utf8",minsplit=30,cols=35):
 
     except KeyboardInterrupt:
         raise KeyboardInterrupt
+    except GeneratorExit:
+        raise GeneratorExit
     except:
         logging.exception("exception url %s",u)
 

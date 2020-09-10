@@ -48,9 +48,10 @@ def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
           reste=""
     texte=t[:minsplit]+texte
     reste+=t[chunk_size:]
-    if len(reste)>0 and reste[-1]=="\n":
-        texte+=reste
-        reste=""
+    if (len(texte)+len(reste))<chunk_size:
+      if len(reste)>0 and reste[-1]=="\n":
+          texte+=reste
+          reste=""
     return texte,reste
 
 #@bufgen_decorator

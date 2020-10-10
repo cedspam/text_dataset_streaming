@@ -42,7 +42,7 @@ def split_ligne(t,chunk_size=int(32e6),minsplit=4096):
     texte=""
     l=t[minsplit:chunk_size].rsplit("\n",1)
     if len(l)>1:
-          texte1,reste=l
+          texte,reste=l
     else:
           texte=l[0]
           reste=""

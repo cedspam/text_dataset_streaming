@@ -10,6 +10,8 @@ jobs:
       - checkout
       - python/load-cache
       - python/install-deps
+      - run: pip install -r requirements.txt
+      - run:  pip install -e .
       - python/save-cache
       - run:
           command: ./manage.py test
